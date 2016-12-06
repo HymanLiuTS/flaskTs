@@ -1,10 +1,11 @@
 #coding:utf-8
-from flask import Flask
+from flask import Flask,request
 app=Flask(__name__)
 @app.route('/')
 def index():
-    return 'hello world'
-
+    user_agent = request.headers.get('User_Agent')
+    return 'user_agent is %s'%user_agent
+    
 @app.route('/<name>')
 def user(name):
     return 'hello %s'%name
