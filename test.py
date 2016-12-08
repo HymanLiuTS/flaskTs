@@ -1,7 +1,8 @@
 #coding:utf-8
 from flask import Flask,session,make_response,redirect,abort
-
+from flask_script import Manager
 app=Flask(__name__)
+manager=Manager(app)
 
 @app.route('/')
 def index():
@@ -21,7 +22,11 @@ def response2():
 def error():
     abort(404)
 
+@manager.command
+def print_str():
+    print 'hello world'
+
 if __name__=='__main__':
-    app.run(debug=True)
+    manager.run()
 
 
