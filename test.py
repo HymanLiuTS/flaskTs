@@ -1,5 +1,5 @@
 #coding:utf-8
-from flask import Flask,session,make_response,redirect,abort,request,render_template
+from flask import Flask,session,make_response,redirect,abort,request,render_template,g
 from flask_script import Manager
 from flask_moment import Moment
 import datetime
@@ -27,6 +27,25 @@ def get_template():
 def get_moment():
     return render_template('moment.html')
 
+@app.route('/test')
+def test():
+    return g.string
+
+@app.before_first_request
+def bf_first_request():
+    g.string = 'before_first_request'
+
+@app.before_request
+def bf_request():
+    g.string = 'before_request'
+
+@app.after_request
+def af_request(param):
+    return param
+
+@app.teardown_request
+def td_request(param):
+    return param
 
 if __name__=='__main__':
     manager.run()
