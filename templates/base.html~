@@ -11,8 +11,7 @@
 	</head>
 	<body>
 		{% block body %}
-		<link rel="shortcut icon" href="{{ url_for('static',filename='test.png')}}"  
-  type="image/x-icon"/>  
+		
 		{% endblock %}
 	</body>
 </html>
