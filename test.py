@@ -5,9 +5,23 @@ import datetime
 app=Flask(__name__)
 manager=Manager(app)
 
+
+class Myobj(object):
+    def __init__(self,name):
+        self.name=name
+
+    def getname(self):
+        return self.name
+
+
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    mydict={'key1':'123','key':'hello'}
+    mylist=(123,234,345,789)
+    myintvar=0
+    myobj=Myobj('Hyman')
+    return render_template('param.html',mydict=mydict,mylist=mylist,myintvar=0,myobj=myobj)
 
 @app.route('/user/<name>')
 def user(name):
