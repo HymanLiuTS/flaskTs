@@ -57,6 +57,16 @@ def del_cookie2():
     response.delete_cookie('Name')
     return response
 
+
+@app.route('/if')
+def iffunc():
+    return render_template('if.html')
+
+@app.route('/for')
+def forfunc():
+    comments=['nihao','123','asd','zxc']
+    return render_template('for.html',comments=comments)
+
 if __name__=='__main__':
     manager.run()
 
