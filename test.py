@@ -5,9 +5,18 @@ import datetime
 app=Flask(__name__)
 manager=Manager(app)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/user/<name>')
+def user(name):
+    return render_template('user.html',name=name)
+
+
 @app.route('/set_cookie')
 def set_cookie():
-    response=make_response('Hello World');
+    response=make_response('set_cookie');
     outdate=datetime.datetime.today() + datetime.timedelta(days=30)
     response.set_cookie('Name','Hyman',expires=outdate)
     return response
