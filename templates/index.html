@@ -1,2 +1,6 @@
-{% include 'common.html' %}
-<h1>Hello World</h1>
+<form method="POST">  
+    {{form.hidden_tag()}}  
+    <p>{{form.name.label}}</p>
+    {{form.name()}}  
+    <br>{{form.submit }}  
+</form>  

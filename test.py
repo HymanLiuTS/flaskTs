@@ -2,10 +2,25 @@
 from flask import Flask,session,make_response,redirect,abort,request,render_template,g
 from flask_script import Manager
 from flask_moment import Moment
+from flask_wtf import FlaskForm
+from wtforms import StringField,SubmitField
+from wtforms.validators import Required
+
+
 import datetime
 app=Flask(__name__)
+app.config['SECRET_KEY']='secret_key'
 manager=Manager(app)
 moment=Moment(app)
+
+class NameForm(FlaskForm):
+    name = StringField('your name',validators=[Required(),])
+    submit = SubmitField('Submit')
+
+@app.route('/',methods=['GET','POST'])
+def index():
+    form = NameForm()
+    return render_template('index.html',form=form)
 
 @app.route('/set_cookie')
 def set_cookie():

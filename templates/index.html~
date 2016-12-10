@@ -1,1 +1,6 @@
-<h1>Hello World</h1>
+<form method="POST">  
+    {{form.hidden_tag()}}  
+    <p>{{form.name.label}}</p>
+    {{form.name()}}  
+    {{form.submit }}  
+</form>  
