@@ -10,6 +10,3 @@
 {% block head %}
 	{{super()}}
 {% endblock %}
-{% block body%}
-	hello world
-{% endblock %}

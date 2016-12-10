@@ -1,0 +1,10 @@
+<html>
+	<head>
+		{% block head %}
+			<title>
+				{% block title %}
+					{% endblock %} - Application
+			</title>
+		{% endblock %}
+	</head>
+</html>
