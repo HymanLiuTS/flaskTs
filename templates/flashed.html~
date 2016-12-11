@@ -1,0 +1,6 @@
+<h6>flashed message</h6>
+ <p>
+    {% for messge in get_flashed_messages() %}
+    	{{ message }}
+    {% endfor %} 
+    </p>

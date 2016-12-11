@@ -1,5 +1,5 @@
 #coding:utf-8
-from flask import Flask,session,make_response,redirect,abort,request,render_template,g
+from flask import Flask,session,make_response,redirect,abort,request,render_template,g,url_for,flash
 from flask_script import Manager
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -17,9 +17,17 @@ class NameForm(FlaskForm):
     name = StringField('your name',validators=[Required(),])
     submit = SubmitField('Submit')
 
+
 @app.route('/',methods=['GET','POST'])
 def index():
     form = NameForm()
+    if form.validate_on_submit():
+        old_name=session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('name has been changed')
+            return redirect(url_for('index'))
+        session['name']=form.name.data
+        return render_template('index.html',form=form)
     return render_template('index.html',form=form)
 
 @app.route('/set_cookie')
