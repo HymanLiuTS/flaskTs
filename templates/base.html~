@@ -1,17 +1,10 @@
 <html>
 	<head>
-		{% block head %}
-			<title>
-				{% block title %}
-					{% endblock %} - Application
-			</title>
-			 <link rel="shortcut icon" href="{{ url_for('static',filename='fb.png')}}"  
-  type="image/x-icon"/>  
-		{% endblock %}
+		{{moment.include_jquery()}}
+		{{moment.include_moment()}}
+		{{moment.lang("zh-CN")}}
 	</head>
 	<body>
-		{% block body %}
-		
-		{% endblock %}
+		{{moment().format('YYYY-MM-DD,h:mm:ss a')}}
 	</body>
 </html>
