@@ -1,8 +1,0 @@
-<form method="POST">  
-	 Hello {% if name %}{{name}} {% else %} stranger {% endif%}
-    {{form.hidden_tag()}}  
-    <p>{{form.name.label}}</p>
-    {{form.name()}}  
-    <br>{{form.submit }}  
-</form>  
-

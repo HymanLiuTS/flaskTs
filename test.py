@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField
 from wtforms.validators import Required
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate,MigrateCommand
 import os
 basedir=os.path.abspath(os.path.dirname(__file__))
 
@@ -19,6 +20,8 @@ moment=Moment(app)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+os.path.join(basedir+'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']=True
 db=SQLAlchemy(app)
+migrate=Migrate(app,db)
+manager.add_command('db',MigrateCommand)
 
 class Role(db.Model):
     __tablename__='roles'
@@ -34,6 +37,7 @@ class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(64),unique=True)
     role_id=db.Column(db.Integer,db.ForeignKey('roles.id'))
+    age=db.Column(db.Integer)
 
     def __repr__(self):
         return '<User %s>'%self.name
