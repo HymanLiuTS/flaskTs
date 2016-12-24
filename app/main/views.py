@@ -1,6 +1,6 @@
 from datetime import datetime  
-from flask import render_template,session,redirect,url_for,current_app  
-  
+from flask import flash,render_template,session,redirect,url_for,current_app  
+
 from . import main  
 from .forms import NameForm  
 from .. import db  
@@ -11,20 +11,16 @@ from ..email import msg
  
 @main.route('/',methods=['GET','POST'])  
 def index():  
-    name=None  
     form=NameForm()  
-    if form.validate_on_submit():  
+    if form.validate_on_submit():
         user=User.query.filter_by(username=form.name.data).first()  
         if user is None:  
-            user =User(username=form.name.data)  
-            db.session.add(user)  
-            session['konwn'] = False  
-            if current_app.config['FLASKY_ADMIN']:  
-                mail.send(msg)  
-        else:  
-            session['known'] = True  
-        session['name']= form.name.data  
-        form.name.data=''  
-        return redirect(url_for('main.index'))  
-    return render_template('index.html',form=form,name=session.get('name'),  
-            known=session.get('known',False))  
+            user = User(username=form.name.data,password=form.password.data)  
+            db.session.add(user)
+            flash('add a user')
+        else:
+            if user.confirm_password(form.password.data) is True:
+                flash('password is right')
+            else:
+                flash('password is not right')
+    return render_template('index.html',form=form)  
