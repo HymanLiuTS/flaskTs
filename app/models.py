@@ -1,5 +1,6 @@
 from app import db 
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin
 class Role(db.Model):  
     __tablename__='role'  
     id=db.Column(db.Integer,primary_key=True)
@@ -8,7 +9,7 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>'% self.name
       
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__='users'
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(64),unique=True,index=True)
@@ -28,3 +29,8 @@ class User(db.Model):
 
     def confirm_password(self,password):
         return check_password_hash(self.hash_password,password)
+
+from . import loginmanager
+@loginmanager.user_loader
+def load_user(id):
+    return User.query.get(int(id))

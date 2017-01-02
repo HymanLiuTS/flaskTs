@@ -1,0 +1,15 @@
+<form method="POST">  
+	 {% for message in get_flashed_messages() %}
+	 	<p>{{ message }}</p>
+	 {% endfor %}
+    {{form.hidden_tag()}}  
+    <p>{{form.name.label}}</p>
+    {{form.name()}}  
+    <p>{{ form.password.label }}</p>
+    {{ form.password() }}
+    {%if current_user.is_authenticated %}
+	 <br>{{form.logout}}
+	 {% else %}
+	 <br>{{form.login}}
+	 {% endif %}
+</form>  

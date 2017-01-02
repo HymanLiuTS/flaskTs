@@ -5,4 +5,5 @@ from wtforms.validators import DataRequired
 class NameForm(FlaskForm):  
     name=TextField('what is your name?',validators=[DataRequired()])  
     password=PasswordField('what is your password?',validators=[DataRequired()])
-    submit=SubmitField('Submit') 
+    login=SubmitField('login')
+    logout=SubmitField('logout')
