@@ -1,7 +1,7 @@
 from datetime import datetime  
 from flask import flash,render_template,session,redirect,url_for,current_app
 from . import main  
-from .forms import NameForm  
+from .forms import NameForm,RegisterForm
 from .. import db  
 from ..models import User  
 from .. import mail  
@@ -43,4 +43,10 @@ def login():
 @login_required
 def loginrq():
     return 'I''m a private url'
-    
+
+@main.route('/register',methods=['GET','POST'])
+def register():
+    form=RegisterForm()
+    if form.validate_on_submit():
+        return "Post Form Succeed"
+    return render_template('register.html',form=form)
