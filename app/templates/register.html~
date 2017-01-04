@@ -3,13 +3,11 @@
 	<p>{{ message }}</p>
 	 {% endfor %}
 	 {{form.hidden_tag()}}  
-	 <p>{{form.email.label}}</p>
-    {{form.email}}  
     <p>{{form.name.label}}</p>
-    {{form.name}}  
+    {{form.name()}}  
      <p>{{form.password1.label}}</p>
-    {{form.password1}}  
+    {{form.password1()}}  
      <p>{{form.password2.label}}</p>
-    {{form.password2}}  
+    {{form.password2()}}  
     <br>{{form.registe }}  
 </form>  

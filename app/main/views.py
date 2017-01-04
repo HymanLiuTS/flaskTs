@@ -3,9 +3,9 @@ from flask import flash,render_template,session,redirect,url_for,current_app
 from . import main  
 from .forms import NameForm,RegisterForm
 from .. import db  
-from ..models import User  
+from ..models import User
+from ..email import send_email
 from .. import mail  
-from ..email import msg 
 from flask_login import login_user,logout_user,current_user,login_required
  
  
@@ -48,5 +48,19 @@ def loginrq():
 def register():
     form=RegisterForm()
     if form.validate_on_submit():
-        return "Post Form Succeed"
+        user=User(username=form.name.data,password=form.password1.data)
+        db.session.add(user)
+        db.session.commit()
+        token=user.generate_token()
+        send_email(form.email.data,'Confirm Account','mail/new_user',user=user,token=token)
     return render_template('register.html',form=form)
+
+@main.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if not current_user.confirmed:
+        if current_user.confirm(token):
+            flash('Confirm succeed')
+        else: 
+            flash('Confirm fail')
+    return redirect(url_for('main.register'))

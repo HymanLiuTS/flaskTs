@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm  
 from wtforms import TextField,SubmitField,PasswordField  
-from wtforms.validators import DataRequired,Length,Regexp,EqualTo 
+from wtforms.validators import DataRequired,Length,Regexp,EqualTo ,Email
 from wtforms import ValidationError
 from ..models import User
   
@@ -11,6 +11,7 @@ class NameForm(FlaskForm):
     logout=SubmitField('logout')
 
 class RegisterForm(FlaskForm):
+    email=TextField('email',validators=[DataRequired(),Email()])
     name=TextField('Name',validators=[DataRequired(),Length(1,32),Regexp('^[A-Za-z][A-Za-z0-9_.]*$',0,'name is invalid')])
     registe=SubmitField('Registe')
     password1=PasswordField('passsword',validators=[DataRequired(),EqualTo('password2','passwords must match')])
