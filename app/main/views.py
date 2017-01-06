@@ -11,19 +11,7 @@ from flask_login import login_user,logout_user,current_user,login_required
  
 @main.route('/',methods=['GET','POST'])  
 def index():  
-    form=NameForm()  
-    if form.validate_on_submit():
-        user=User.query.filter_by(username=form.name.data).first()  
-        if user is None:  
-            user = User(username=form.name.data,password=form.password.data)  
-            db.session.add(user)
-            flash('add a user')
-        else:
-            if user.confirm_password(form.password.data) is True:
-                flash('password is right')
-            else:
-                flash('password is not right')
-    return render_template('index.html',form=form)  
+    return render_template('index.html')  
 
 @main.route('/login',methods=['GET','POST'])
 def login():
@@ -64,3 +52,4 @@ def confirm(token):
         else: 
             flash('Confirm fail')
     return redirect(url_for('main.register'))
+
