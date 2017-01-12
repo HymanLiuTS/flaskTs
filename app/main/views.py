@@ -1,9 +1,9 @@
 from datetime import datetime  
-from flask import flash,render_template,session,redirect,url_for,current_app
+from flask import flash,render_template,session,redirect,url_for,current_app,request
 from . import main  
 from .forms import NameForm,RegisterForm
 from .. import db  
-from ..models import User
+from ..models import User,Post
 from ..email import send_email
 from .. import mail  
 from flask_login import login_user,logout_user,current_user,login_required
@@ -11,7 +11,10 @@ from flask_login import login_user,logout_user,current_user,login_required
  
 @main.route('/',methods=['GET','POST'])  
 def index():  
-    return render_template('index.html')  
+    page=request.args.get('page',1,type=int)
+    pagination=Post.query.paginate(page,per_page=1,error_out=False)
+    posts=pagination.items
+    return render_template('index.html',posts=posts,pagination=pagination)  
 
 @main.route('/login',methods=['GET','POST'])
 def login():

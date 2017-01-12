@@ -2,6 +2,7 @@ from app import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin,AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from datetime import datetime
 class Role(db.Model):  
     __tablename__='role'  
     id=db.Column(db.Integer,primary_key=True)
@@ -96,3 +97,10 @@ def create_roles():
         role.permission=roles[r]
         db.session.add(role)
     db.session.commit()
+
+class Post(db.Model):
+    __tablename__='posts'
+    id=db.Column(db.Integer,primary_key=True)
+    body=db.Column(db.Text)
+    timestamp=db.Column(db.DateTime,index=True,default=datetime.utcnow)
+

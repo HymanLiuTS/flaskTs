@@ -1,1 +1,51 @@
-管理员邮箱:<a href="emailto:{{email}}">{{email}}</a>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+#menu { 
+font:12px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+}
+#menu, #menu li {
+list-style:none; /* 将默认的列表符号去掉 */
+padding:0; /* 将默认的内边距去掉 */
+margin:0; /* 将默认的外边距去掉 */
+}
+</style>
+<style type="text/css">
+#menu li { 
+float:left; /* 往左浮动 */
+}
+</style>
+<style type="text/css">
+#menu li a {
+display:block; /* 将链接设为块级元素 */
+padding:8px 50px; /* 设置内边距 */
+background:#3A4953; /* 设置背景色 */
+color:#fff; /* 设置文字颜色 */
+text-decoration:none; /* 去掉下划线 */
+border-right:1px solid #000; /* 在左侧加上分隔线 */
+}
+</style>
+<title></title>
+</head>
+<body>
+{% for post in posts %}
+{{ post.body }}
+{% endfor %}
+<ul id="menu">
+	<li>
+		<a href="{% if pagination.has_prev %}{{url_for('.index',page=pagination.page-1)}}{% else %}#{% endif %}" >&laquo</a>
+	</li>
+		{% for p in pagination.iter_pages() %}
+			<li>
+			<a href="{{ url_for('.index',page=p)}}">{{p}}</a>
+			</li>
+		{% endfor %}
+	<li>
+		<a href="{%if pagination.has_next %}{{url_for('.index',page=pagination.page+1)}}{% else %}#{% endif %}" >&raquo</a>
+	</li>
+</ul>
+
+</body>
+</html>
