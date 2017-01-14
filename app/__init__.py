@@ -5,6 +5,7 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy  
 from config import config  
 from flask_login import LoginManager
+from flask_pagedown import PageDown
 
 loginmanager=LoginManager()
 loginmanager.session_protection='strong'
@@ -14,6 +15,7 @@ bootstrap=Bootstrap()
 mail=Mail()  
 moment=Moment()  
 db=SQLAlchemy()  
+pagedown=PageDown()
   
 def create_app(config_name):  
     app=Flask(__name__)  
@@ -25,6 +27,7 @@ def create_app(config_name):
     moment.init_app(app)  
     db.init_app(app) 
     loginmanager.init_app(app)
+    pagedown.init_app(app)
   
     from .main import main as main_blueprint  
     app.register_blueprint(main_blueprint)  

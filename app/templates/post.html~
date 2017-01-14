@@ -1,0 +1,7 @@
+<form method="POST">  
+    {{form.hidden_tag()}}  
+    <p>{{form.body.label}}</p>
+    {{form.body()}}  
+    {{ form.submit()}}
+</form>  
+	{{ pagedown.include_pagedown() }}

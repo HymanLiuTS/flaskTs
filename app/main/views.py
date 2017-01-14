@@ -1,7 +1,7 @@
 from datetime import datetime  
 from flask import flash,render_template,session,redirect,url_for,current_app,request
 from . import main  
-from .forms import NameForm,RegisterForm
+from .forms import NameForm,RegisterForm,PostForm
 from .. import db  
 from ..models import User,Post
 from ..email import send_email
@@ -56,3 +56,7 @@ def confirm(token):
             flash('Confirm fail')
     return redirect(url_for('main.register'))
 
+@main.route('/post')
+def post():
+    form=PostForm()
+    return render_template('post.html',form=form)

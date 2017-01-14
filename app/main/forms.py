@@ -3,7 +3,12 @@ from wtforms import TextField,SubmitField,PasswordField
 from wtforms.validators import DataRequired,Length,Regexp,EqualTo ,Email
 from wtforms import ValidationError
 from ..models import User
-  
+from flask_pagedown.fields import PageDownField
+
+class PostForm(FlaskForm):
+    body=PageDownField("Your post",validators=[DataRequired()])
+    submit=SubmitField('Submit')
+
 class NameForm(FlaskForm):  
     name=TextField('what is your name?',validators=[DataRequired()])  
     password=PasswordField('what is your password?',validators=[DataRequired()])
