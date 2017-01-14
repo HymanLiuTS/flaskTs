@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin,AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
+
 class Role(db.Model):  
     __tablename__='role'  
     id=db.Column(db.Integer,primary_key=True)
@@ -98,9 +99,22 @@ def create_roles():
         db.session.add(role)
     db.session.commit()
 
+from markdown import markdown
+import bleach
 class Post(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
     body=db.Column(db.Text)
     timestamp=db.Column(db.DateTime,index=True,default=datetime.utcnow)
+    html_body=db.Column(db.Text)
+
+    @staticmethod
+    def on_body_change(target,value,oldvalue,initiator):
+        allowed_tags=['a','ul','strong','p','h1','h2','h3']
+        html_body=markdown(value,output_format='html')
+        html_body=bleach.clean(html_body,tags=allowed_tags,strip=True)
+        html_body=bleach.linkify(htnl_body)
+        target.html_body=html_body
+
+db.event.listen(Post.body,'set',Post.on_body_change)
 
