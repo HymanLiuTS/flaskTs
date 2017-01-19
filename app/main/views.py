@@ -1,5 +1,5 @@
 from datetime import datetime  
-from flask import flash,render_template,session,redirect,url_for,current_app,request
+from flask import flash,render_template,session,redirect,url_for,current_app,request,jsonify,url_for
 from . import main  
 from .forms import NameForm,RegisterForm,PostForm
 from .. import db  
@@ -60,3 +60,20 @@ def confirm(token):
 def post():
     form=PostForm()
     return render_template('post.html',form=form)
+
+@main.route('/posts/',methods=['POST'])
+def new_post():
+    post=Post.from_json(request.json)
+    db.session.add(post)
+    db.session.commit()
+    return jsonify(post.to_json())
+
+@main.route('/posts/',methods=['GET'])
+def get_posts():
+    posts=Post.query.all()
+    return jsonify({'posts':[post.to_json() for post in posts]})
+
+@main.route('/posts/<int:id>',methods=['GET'])
+def get_post(id):
+    post=Post.query.get_or_404(id)
+    return jsonify(post.to_json())

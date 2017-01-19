@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin,AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
+from flask import url_for
 
 class Role(db.Model):  
     __tablename__='role'  
@@ -107,13 +108,25 @@ class Post(db.Model):
     body=db.Column(db.Text)
     timestamp=db.Column(db.DateTime,index=True,default=datetime.utcnow)
     html_body=db.Column(db.Text)
+    def to_json(self):
+        json_post={
+        'url':url_for('main.get_post',id=self.id,_external=True),
+        'body':self.body,
+        'html_body':self.html_body
+        }
+        return json_post
+    
+    @staticmethod
+    def from_json(json_post):
+        body=json_post.get('body')
+        return Post(body=body)
 
     @staticmethod
     def on_body_change(target,value,oldvalue,initiator):
         allowed_tags=['a','ul','strong','p','h1','h2','h3']
         html_body=markdown(value,output_format='html')
         html_body=bleach.clean(html_body,tags=allowed_tags,strip=True)
-        html_body=bleach.linkify(htnl_body)
+        html_body=bleach.linkify(html_body)
         target.html_body=html_body
 
 db.event.listen(Post.body,'set',Post.on_body_change)
