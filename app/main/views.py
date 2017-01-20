@@ -11,10 +11,7 @@ from flask_login import login_user,logout_user,current_user,login_required
  
 @main.route('/',methods=['GET','POST'])  
 def index():  
-    page=request.args.get('page',1,type=int)
-    pagination=Post.query.paginate(page,per_page=1,error_out=False)
-    posts=pagination.items
-    return render_template('index.html',posts=posts,pagination=pagination)  
+    return render_template('index.html')  
 
 @main.route('/login',methods=['GET','POST'])
 def login():
@@ -44,6 +41,7 @@ def register():
         db.session.commit()
         token=user.generate_token()
         send_email(form.email.data,'Confirm Account','mail/new_user',user=user,token=token)
+        return redirect(url_for(main.index))
     return render_template('register.html',form=form)
 
 @main.route('/confirm/<token>')
@@ -77,3 +75,9 @@ def get_posts():
 def get_post(id):
     post=Post.query.get_or_404(id)
     return jsonify(post.to_json())
+
+@main.route('/shutdown')
+def serv_shutdown():
+    shutdown=request.environ.get('werkzeug.server.shutdown')
+    shutdown()
+    return 'shuting down'

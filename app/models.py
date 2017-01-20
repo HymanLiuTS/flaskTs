@@ -35,7 +35,7 @@ class User(db.Model,UserMixin):
     def __init__(self,**kwargs):
         super(User,self).__init__(**kwargs)
         if self.role is None:
-            if self.name == 'Hyman':
+            if self.username == 'Hyman':
                 self.role=Role.query.filter_by(permission=0x8f).first()
             if self.role is None:
                 self.role=Role.query.filter_by(permission=0x07).first()
